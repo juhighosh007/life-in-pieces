@@ -1,6 +1,8 @@
 /* VARIABLES */
 let screen;
 screen = 0;
+let teddy, scissor, candy, catcher, scoreChildhood;
+scoreChildhood = 0;
 
 /* PRELOAD LOADS FILES */
 function preload(){
@@ -11,6 +13,37 @@ function preload(){
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background("#c2dfe3");
+
+  // CHILDHOOD GAME SPRITES
+    // falling objects
+  childhoodSprites = new Group();
+  teddy = new Sprite(200,0,50,50);
+  teddy.color = color("brown");
+  teddy.vel.y = 5;
+  teddy.rotationLock = true;
+
+  candy = new Sprite(700,0,50,50);
+  candy.color = color("pink");
+  candy.vel.y = 4;
+  candy.rotationLock = true;
+
+  scissor = new Sprite(1000,0,50);
+  scissor.color = color("black");
+  scissor.vel.y = 5;
+  scissor.rotationLock = true;
+  
+   // catcher 
+  catcher = new Sprite(width / 2, height -  30 , 160, 20);
+  catcher.color = color("black");
+  catcher.collider = "k";
+
+  // adding them to group
+  childhoodSprites.add(teddy);
+  childhoodSprites.add(candy);
+  childhoodSprites.add(scissor);
+  childhoodSprites.add(catcher);
+  childhoodSprites.visible=false;
+
 }
 
 /* DRAW LOOP REPEATS */
@@ -30,7 +63,7 @@ function draw() {
     noLoop();
     return; 
   }
-
+// screen changes
   if (screen == 0) {
     introPage();
   } else if (screen == 1) {
@@ -48,7 +81,7 @@ function introPage() {
   noStroke()
   textAlign(CENTER, CENTER);
   textSize(70);
-  textStyle("normal");
+  textStyle("bold");
   textFont("Verdana");
   fill("#253237");
   text("Life: In Pieces", width/2, height/2-200);
@@ -70,11 +103,16 @@ function introPage() {
 
 function childhood() {
   background("A2D2FF");
-  textSize(35);
+// title
+  textSize(45);
   textFont("verdana");
   textStyle("bold");
   fill("#954AC1");
+  text(`Childhood (Age 0-10)`,
+    width / 2, height / 2 - 200);
+// intro text
   textStyle("italic");
+  textSize(35);
   text(`The world feels big. Your legs are small.
  Every day is an adventure - chasing butterflies, sneaking cookies,\nhiding under the bed when the thunder's too loud.
  You don't understand everything. But you feel everything.
@@ -91,4 +129,121 @@ function childhood() {
 
 function childhoodGame() {
   background("#FFF3B0");
+  childhoodSprites.visible=true;
+  // Instructions
+  fill("#382145");
+  textFont("Helvetica");
+  textStyle("normal");
+  textSize(20);
+  textAlign(LEFT, LEFT);
+  text(`Explore and collect joyful memories - but not everything is safe to keep.
+Use the arrow keys to navigate your childhood world.
+Pick up toys and snacks to earn points.
+But stay alert - some things can hurt you.
+Avoid hazards that don't belong in little hands.`, 20, 30);
+
+  // Draw score
+  textAlign(RIGHT, RIGHT)
+  textSize(40);
+  fill("#382145");
+  textStyle("bold");
+  text("score = " + scoreChildhood, width - 50, 40);
+  textSize(20);
+  textStyle("normal");
+  text("collect 50 points to win :)", width - 25, 80);
+  text("a negative score means you lose", width - 25, 100);
+
+  // Movement of catcher
+  if (kb.pressing("left")) {
+    catcher.vel.x=-6;
+  } else if (kb.pressing("right")) {
+    catcher.vel.x=6;
+  } else {
+    catcher.vel.x=0;
+  }
+  
+
+  //Stop catcher at edges of screen
+  if (catcher.x>(width-20)) {
+    catcher.x=width-20;
+  } else if (catcher.x < 50) {
+    catcher.x=50;
+  }
+
+  // If fallingObjects reaches bottom, move back to random position at top
+  if (teddy.y >= height) {
+    teddy.y=0;
+    teddy.x=random(30,width-105);
+    teddy.vel.y=random(4,7);
+  } else if (candy.y >= height) {
+    candy.y=0;
+    candy.x=random(30,width-105);
+    candy.vel.y=random(4,7);
+  } else if (scissor.y >= height) {
+    scissor.y=0;
+    scissor.x=random(30,width-105);
+    scissor.vel.y=random(4,7);
+  }
+
+  //If fallingObjects collides with catcher, move back to random position at top
+  if (teddy.collides(catcher)) {
+    teddy.y=0;
+    teddy.x=random(30,width-105);
+    teddy.vel.y=random(2,6);
+    teddy.direction="down";
+    scoreChildhood+=10;
+  } else if (candy.collides(catcher)) {
+    candy.y=0;
+    candy.x=random(30,width-105);
+    candy.vel.y=random(2,6);
+    candy.direction="down";
+    scoreChildhood+=10;
+  } else if (scissor.collides(catcher)) {
+    scissor.y=0;
+    scissor.x=random(30,width-105);
+    scissor.vel.y=random(4,7);
+    scissor.direction="down";
+    scoreChildhood-=5;
+  }
+
+  // Win or Lose
+  if (scoreChildhood>=50) {
+    background("#FFF3B0");
+    textAlign(CENTER, CENTER);
+    textSize(45);
+    fill("#382145");
+  textFont("Helvetica");
+  textStyle("bold");
+    childhoodSprites.removeAll();
+    text(`You head into the world with wonder still in your pocket
+      - curious, kind, and ready to grow.`, width/2,height/2);
+  fill("#382145");
+  textSize(20);
+  textStyle("italic");
+  text(`Click anywhere on the screen to continue`,
+    width / 2, height / 2 + 200);
+  if (mouse.presses()) {
+    screen=3;
+  }
+  } else if (scoreChildhood < 0) {
+    background("#FFF3B0");
+    childhoodSprites.removeAll();
+    textAlign(CENTER, CENTER);
+    textSize(45);
+    fill("#382145");
+  textFont("Helvetica");
+  textStyle("bold");
+    text(`You leave with fewer smiles than you deserved.
+      But you're still standing.
+      And that matters too.`, width/2,height/2);
+
+  fill("#382145");
+  textSize(20);
+  textStyle("italic");
+  text(`Click anywhere on the screen to continue`,
+    width / 2, height / 2 + 200);
+  if (mouse.presses()) {
+    screen=3;
+  }
+  }
 }
