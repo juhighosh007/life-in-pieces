@@ -71,6 +71,10 @@ function draw() {
     childhood();
   } else if (screen == 2) {
     childhoodGame();
+  } else if (screen == 3 ) {
+    adolescence();
+  } else if (screen == 4 ) {
+    adolescenceGame();
   }
   
 }
@@ -102,30 +106,52 @@ function introPage() {
   }
 }
 
-function childhood() {
+function phaseIntro(phase, description, screenNumber) {
   background("A2D2FF");
 // title
   textSize(45);
   textFont("verdana");
   textStyle("bold");
   fill("#954AC1");
-  text(`Childhood (Age 0-10)`,
+  text(phase,
     width / 2, height / 2 - 200);
 // intro text
   textStyle("italic");
   textSize(35);
-  text(`The world feels big. Your legs are small.
- Every day is an adventure - chasing butterflies, sneaking cookies,\nhiding under the bed when the thunder's too loud.
- You don't understand everything. But you feel everything.
- Every toy, every hug, every scraped knee becomes a memory.
- Some are sweet. Some sting a little.`, width / 2, height / 2 )
+  text(description, width / 2, height / 2 )
  textSize(20);
  fill("#67228E");
  text(`Press the space bar to continue`,
     width / 2, height / 2 + 200);
   if (kb.pressing("space")) {
-    screen=2; 
+    screen=screenNumber; 
   }
+}
+
+function adolescenceGame () {
+  
+}
+
+function adolescence() {
+  phase = "Adolescence (11-18)"
+  description = `You want to be seen. You want to disappear.
+ You slam doors. You stay up late. 
+ You whisper secrets to someone who just might matter.
+ Rules feel tight. Feelings feel louder.
+You start testing limits - theirs, yours, the world's.`;
+screenNumber = 4;
+phaseIntro(phase, description, screenNumber);
+}
+
+function childhood() {
+  phase = "Childhood (Age 0-10)";
+  description = `The world feels big. Your legs are small.
+ Every day is an adventure - chasing butterflies, sneaking cookies,\nhiding under the bed when the thunder's too loud.
+ You don't understand everything. But you feel everything.
+ Every toy, every hug, every scraped knee becomes a memory.
+ Some are sweet. Some sting a little.`;
+ screenNumber = 2;
+ phaseIntro(phase, description, screenNumber);
 }
 
 function childhoodGame() {
@@ -228,7 +254,7 @@ Stay alert - some things aren't meant for little hands.`, width/2, height/2);
   textSize(20);
   textStyle("italic");
   text(`Press the space bar to continue`,
-    width / 2, height / 2 + 200);
+    width / 2, height / 2 + 150);
   if (kb.pressing("space")) {
     screen=3;
   }
@@ -247,7 +273,7 @@ Stay alert - some things aren't meant for little hands.`, width/2, height/2);
   textSize(20);
   textStyle("italic");
   text(`Press the space bar to continue`,
-    width / 2, height / 2 + 200);
+    width / 2, height / 2 + 150);
   if (kb.pressing("space")) {
     screen=3;
   }
