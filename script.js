@@ -1,8 +1,9 @@
 /* VARIABLES */
 let screen;
 screen = 0;
-let teddy, scissor, candy, catcher, scoreChildhood;
+let teddy, scissor, candy, catcher, scoreChildhood, flagChildhood;
 scoreChildhood = 0;
+flagChildhood = false;
 
 /* PRELOAD LOADS FILES */
 function preload(){
@@ -17,17 +18,17 @@ function setup() {
   // CHILDHOOD GAME SPRITES
     // falling objects
   childhoodSprites = new Group();
-  teddy = new Sprite(200,0,50,50);
+  teddy = new Sprite(-200,-200,50,50);
   teddy.color = color("brown");
   teddy.vel.y = 5;
   teddy.rotationLock = true;
 
-  candy = new Sprite(700,0,50,50);
+  candy = new Sprite(-900,-900,50,50);
   candy.color = color("pink");
   candy.vel.y = 4;
   candy.rotationLock = true;
 
-  scissor = new Sprite(1000,0,50);
+  scissor = new Sprite(-1100,-1100,50);
   scissor.color = color("black");
   scissor.vel.y = 5;
   scissor.rotationLock = true;
@@ -134,13 +135,19 @@ function childhoodGame() {
   fill("#382145");
   textFont("Helvetica");
   textStyle("normal");
-  textSize(20);
-  textAlign(LEFT, LEFT);
-  text(`Explore and collect joyful memories - but not everything is safe to keep.
-Use the arrow keys to navigate your childhood world.
-Pick up toys and snacks to earn points.
-But stay alert - some things can hurt you.
-Avoid hazards that don't belong in little hands.`, 20, 30);
+  textSize(40);
+  textAlign(CENTER, CENTER);
+  text(`Use the arrow keys to catch falling toys and snacks to earn points.
+Stay alert - some things aren't meant for little hands.`, width/2, height/2);
+
+ // Position of fallingObjects
+ if (!flagChildhood) {
+  teddy.pos = {x:200, y:0};
+ candy.pos = {x:900, y:0};
+ scissor.pos = {x:1100, y:0};
+ flagChildhood = true;
+ }
+ 
 
   // Draw score
   textAlign(RIGHT, RIGHT)
@@ -220,9 +227,9 @@ Avoid hazards that don't belong in little hands.`, 20, 30);
   fill("#382145");
   textSize(20);
   textStyle("italic");
-  text(`Click anywhere on the screen to continue`,
+  text(`Press the space bar to continue`,
     width / 2, height / 2 + 200);
-  if (mouse.presses()) {
+  if (kb.pressing("space")) {
     screen=3;
   }
   } else if (scoreChildhood < 0) {
@@ -236,13 +243,12 @@ Avoid hazards that don't belong in little hands.`, 20, 30);
     text(`You leave with fewer smiles than you deserved.
       But you're still standing.
       And that matters too.`, width/2,height/2);
-
   fill("#382145");
   textSize(20);
   textStyle("italic");
-  text(`Click anywhere on the screen to continue`,
+  text(`Press the space bar to continue`,
     width / 2, height / 2 + 200);
-  if (mouse.presses()) {
+  if (kb.pressing("space")) {
     screen=3;
   }
   }
