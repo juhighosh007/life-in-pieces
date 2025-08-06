@@ -4,6 +4,7 @@ screen = 0;
 let teddy, scissor, candy, catcher, scoreChildhood, flagChildhood;
 scoreChildhood = 0;
 flagChildhood = false;
+let flagAdolescenceGame = false;
 
 /* PRELOAD LOADS FILES */
 function preload(){
@@ -123,12 +124,80 @@ function phaseIntro(phase, description, screenNumber) {
  fill("#67228E");
  text(`Press the space bar to continue`,
     width / 2, height / 2 + 200);
-  if (kb.pressing("space")) {
+  if (kb.presses("space")) {
     screen=screenNumber; 
   }
 }
 
 function adolescenceGame () {
+  background("#EF476F");
+  // draw maze  
+  if (!flagAdolescenceGame) {
+    walls = new Group();
+  noStroke()
+  walls.color="black";
+  new walls.Sprite(160, 10, 300, 5,);
+  new walls.Sprite(10, 198, 5, 380);  
+  new walls.Sprite(150, 60, 5, 100);
+  new walls.Sprite(230, 390, 325, 5); 
+  new walls.Sprite(50, 300, 75, 5); 
+  new walls.Sprite(340, 146, 110, 5);
+  new walls.Sprite(340, 250, 110, 5);
+  new walls.Sprite(285, 198, 5, 109);
+  new walls.Sprite(185, 332, 5, 109);
+  new walls.Sprite(190, 197, 185, 5);
+  new walls.Sprite(395, 200, 5, 380);
+  walls.collider = "static";
+
+  // player 
+  player = new Sprite(350, 50, 40, 40);
+  player.color = "#FFD166";
+  player.rotationLock = true;
+  
+  // obstacles 
+
+  flagAdolescenceGame = true;
+  }
+
+
+  // Draw start and end text
+  fill("white");
+  textSize(20);
+  text('Start', 350, 20);
+  text('End', 35, 390);
+
+  //Move the player
+  if (kb.pressing("left")) {
+    player.vel.x=-3;
+  } else if (kb.pressing("right")) {
+    player.vel.x=3;
+  } else if (kb.pressing("up")) {
+    player.vel.y=-3;
+  } else if (kb.pressing("down")) {
+    player.vel.y=3;
+  }
+
+  //Player cannot go above maze
+  if (player.y < 20) {
+    player.y = 20;
+  }
+
+  // Player wins
+  if (player.y > 380) {
+    textSize(20);
+    text('You Win!', 170, 170);
+    player.vel.x = 0;
+    player.vel.y = 0;
+    textStyle("italic");
+    text(`Press the space bar to continue`,
+    width / 2, height / 2 + 200);
+  if (kb.presses("space")) {
+    screen=5; 
+  }
+  }
+
+  // Instructions 
+  
   
 }
 
@@ -173,7 +242,6 @@ Stay alert - some things aren't meant for little hands.`, width/2, height/2);
  scissor.pos = {x:1100, y:0};
  flagChildhood = true;
  }
- 
 
   // Draw score
   textAlign(RIGHT, RIGHT)
