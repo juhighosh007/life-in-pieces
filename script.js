@@ -66,7 +66,8 @@ function draw() {
     return; 
   }
 // screen changes
-  if (screen == 0) {
+  adolescenceGame();
+  /*if (screen == 0) {
     introPage();
   } else if (screen == 1) {
     childhood();
@@ -76,11 +77,17 @@ function draw() {
     adolescence();
   } else if (screen == 4 ) {
     adolescenceGame();
-  }
+  } else if ( screen == 5 ) {
+    adulthoodIntro();
+  }*/
   
 }
 
 /* FUNCTIONS */
+
+function adulthoodIntro() {
+
+}
 
 function introPage() {
   background("#c2dfe3");
@@ -155,10 +162,37 @@ function adolescenceGame () {
   player.rotationLock = true;
   
   // obstacles 
+  firstObstacle = new Sprite(110,50,40,40, "k");
+  firstObstacle.color = "white";
+  firstObstacle.rotationLock = true;
+  firstObstacle.vel.y = 1;
+
+  secondObstacle = new Sprite(50,250,40,40, "k");
+  secondObstacle.rotationLock = true;
+  secondObstacle.color = "black";
+  secondObstacle.vel.x = 1;
 
   flagAdolescenceGame = true;
   }
+  
+  //Move the obstacle
+    if (firstObstacle.y > 155){
+      firstObstacle.vel.y = -1;
+    } else if(firstObstacle.y < 50){
+      firstObstacle.vel.y = 1;
+    }
 
+    if (secondObstacle.x > 200){
+      secondObstacle.vel.x = -1;
+    } else if(firstObstacle.y < 50){
+      secondObstacle.vel.x = 1;
+    }
+  
+    //If player touches obstacle, start again
+    if (player.collides(firstObstacle) || (player.collides(secondObstacle))) {
+      player.x = 350;
+      player.y = 50;
+    } 
 
   // Draw start and end text
   fill("white");
@@ -175,6 +209,9 @@ function adolescenceGame () {
     player.vel.y=-3;
   } else if (kb.pressing("down")) {
     player.vel.y=3;
+  } else {
+    player.vel.x = 0;
+    player.vel.y = 0;
   }
 
   //Player cannot go above maze
@@ -189,14 +226,23 @@ function adolescenceGame () {
     player.vel.x = 0;
     player.vel.y = 0;
     textStyle("italic");
-    text(`Press the space bar to continue`,
-    width / 2, height / 2 + 200);
+    textSize(17);
+    text(`Press the space bar\nto continue`,
+    175, 230);
   if (kb.presses("space")) {
     screen=5; 
   }
   }
 
   // Instructions 
+  textStyle("italic")
+  textSize(35);
+  textAlign(CENTER, CENTER);
+  text(`You're a rebellious teen sneaking out at midnight.
+Use the arrow keys to navigate the maze.
+Avoid obstacles - one wrong move and you're busted.
+Make it out without getting caught. Freedom awaits.
+`, width/2 + 200, height/2 - 100);
   
   
 }
