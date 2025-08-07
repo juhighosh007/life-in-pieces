@@ -8,7 +8,9 @@ let flagAdolescenceGame = false;
 
 /* PRELOAD LOADS FILES */
 function preload(){
-  
+  candyImg = loadImage('assets/candy.png');
+  scissorsImg = loadImage('assets/scissors.png');
+  teddyImg = loadImage('assets/teddy.png');
 }
 
 /* SETUP RUNS ONCE */
@@ -16,21 +18,26 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   background("#c2dfe3");
 
+  candyImg.resize(70,130);
+  scissorsImg.resize(70,0);
+  teddyImg.resize(90,0);
+
+
   // CHILDHOOD GAME SPRITES
     // falling objects
   childhoodSprites = new Group();
-  teddy = new Sprite(-200,-200,50,50);
-  teddy.color = color("brown");
+  teddy = new Sprite(teddyImg, -200,-200,50,50);
+  // teddy.color = color("brown");
   teddy.vel.y = 5;
   teddy.rotationLock = true;
 
-  candy = new Sprite(-900,-900,50,50);
-  candy.color = color("pink");
+  candy = new Sprite(candyImg,-900,-900,50,50);
+  // candy.color = color("pink");
   candy.vel.y = 4;
   candy.rotationLock = true;
 
-  scissor = new Sprite(-1100,-1100,50);
-  scissor.color = color("black");
+  scissor = new Sprite(scissorsImg,-1100,-1100,50);
+  // scissor.color = color("black");
   scissor.vel.y = 5;
   scissor.rotationLock = true;
   
@@ -66,8 +73,7 @@ function draw() {
     return; 
   }
 // screen changes
-  adolescenceGame();
-  /*if (screen == 0) {
+  if (screen == 0) {
     introPage();
   } else if (screen == 1) {
     childhood();
@@ -79,14 +85,27 @@ function draw() {
     adolescenceGame();
   } else if ( screen == 5 ) {
     adulthoodIntro();
-  }*/
+  } else if (screen == 6 ) {
+    adulthoodGame();
+  }
   
 }
 
 /* FUNCTIONS */
 
-function adulthoodIntro() {
+function adulthoodGame() {
+  
+}
 
+function adulthoodIntro() {
+  phase = "Adulthood"
+  description = `Freedom feels amazing… until it doesn’t.
+ You're juggling too much - classes, jobs, late-night calls, ramen again.
+ Everyone says these are the best years. 
+ But no one tells you how lonely they can get.
+ You’re figuring it out. One week at a time. Messy. Brave. Real.`;
+screenNumber = 6;
+phaseIntro(phase, description, screenNumber);
 }
 
 function introPage() {
@@ -225,12 +244,16 @@ function adolescenceGame () {
     text('You Win!', 170, 170);
     player.vel.x = 0;
     player.vel.y = 0;
+    firstObstacle.remove();
+    secondObstacle.remove();
     textStyle("italic");
     textSize(17);
     text(`Press the space bar\nto continue`,
     175, 230);
   if (kb.presses("space")) {
-    screen=5; 
+    screen=5;
+    walls.removeAll();
+    player.remove();
   }
   }
 
@@ -248,7 +271,7 @@ Make it out without getting caught. Freedom awaits.
 }
 
 function adolescence() {
-  phase = "Adolescence (11-18)"
+  phase = "Adolescence"
   description = `You want to be seen. You want to disappear.
  You slam doors. You stay up late. 
  You whisper secrets to someone who just might matter.
@@ -259,7 +282,7 @@ phaseIntro(phase, description, screenNumber);
 }
 
 function childhood() {
-  phase = "Childhood (Age 0-10)";
+  phase = "Childhood";
   description = `The world feels big. Your legs are small.
  Every day is an adventure - chasing butterflies, sneaking cookies,\nhiding under the bed when the thunder's too loud.
  You don't understand everything. But you feel everything.
