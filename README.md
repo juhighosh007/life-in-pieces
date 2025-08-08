@@ -1,49 +1,65 @@
-# Game Jam Starter Code
-This is a place for you to start building your Game Jam Project!
+# Life: In Pieces
 
-### Project Requirements
-Your project should:
-- Include a clear description of the goal and rules. 
-- Provide evidence for how it responds to the game jam prompt.
-- Incorporate one UX design principle.
-- Be an MVP version of the final vision for the game. 
-- Properly cite any assets or a game you modded.
-- Utilize code comments to make your code readable for others who might want to mod it. 
-- Be playtested to gather feedback.
-- Be iterated on based on the feedback you receive.
+> *"Hope is not just a feeling – it’s a choice that repeats, over and over, through every stage of life."*
 
-
-### Extensions
-You can extend your project further by:
-- Add a new feature
-- Refactor your code
-- Port to Github pages
-
-###  Attributions
-*If you used any code, ideas, images, or resources from another person or group of people, tell us about it here. Make sure it is in the public domain, has a license that allows you to use it, or is one of your own.
-- Add here if applicable
+**[Life: In Pieces](https://juhighosh007.github.io/life-in-pieces/)** is a narrative-driven, stage-based game created for the **Girls Who Code Summer Immersion Program 2025 Game Jam**.  
+The player journeys through **childhood, adolescence, adulthood, and old age** — each phase offering unique mechanics, challenges, and perspectives.
 
 ---
 
-## File Overview
+## 🎯 Game Concept
 
-### ← script.js
+Hope is catching joy even when danger falls beside it.  
+In adolescence, it’s navigating obstacles knowing you might stumble — but pushing forward anyway.  
+In adulthood, it’s balancing exhaustion with ambition, holding on to the belief that balance is still possible.  
+In old age, it’s weaving through drifting blocks — fragments of memories, regrets, and fading strength — still finding ways to move ahead.  
 
-This is where we will add the JavaScript code for our game.
+Through evolving mechanics and changing outcomes, the game invites players to experience how resilience takes different forms in every chapter of life.
 
-### ← assets
+---
 
-Drag in assets, like images, to add them to your project. If you are adding an image, it is best to save it to your computer, then upload the file to the `assets` folder. The url of the image will be `assets/example.jpg` or `assets/example.png`.
+## ✨ Features
 
-### ← index.html
+- **Four Distinct Phases**
+  - **Childhood** – Catch joyful objects while dodging dangers that fall alongside them.
+  - **Adolescence** – Navigate moving obstacles with retry-friendly gameplay.
+  - **Adulthood** – Make branching life choices that balance burnout, joy, and progress.
+  - **Old Age** – Dodge sideways-drifting blocks representing memories and regrets while maintaining mobility.
 
-The HTML file contains HTML code that sets up a webpage for our game. We also add libraries in this file using HTML tags.
+- **Evolving Gameplay**
+  - Each stage changes the core mechanics, keeping the experience fresh and surprising.
 
-### ← README.md
+- **Meaningful Choices**
+  - Player decisions in adulthood directly shape the ending you see.
 
-That's this file. This is the place to tell people more about what your game does and how you built it. 
+- **Narrative Flow**
+  - Short reflective text connects gameplay to the emotional arc of each phase.
 
-### ← style.css
+---
 
-The CSS file adds styling rules to your content like changing colors and fonts. We will not use this file for our game and instead update the style of our game in the script.js file.  
+## 🛠️ Technologies Used
+
+- **JavaScript** 
+- **[p5.js](https://p5js.org/)** 
+- **[p5.play](https://p5play.org/)** 
+
+---
+
+## 🎮 How to Play
+
+1. Progress through life phases in sequence — each with its own mechanics.
+2. **Childhood:** Move the catcher to grab joyful objects and avoid dangers.
+3. **Adolescence:** Navigate obstacles and reach the goal, retrying if caught.
+4. **Adulthood:** Choose actions that affect your burnout, joy, and progress stats.
+5. **Old Age:** Avoid drifting blocks while keeping your movement steady to reach the end.
+   
+---
+
+## 📦 Installation & Running Locally
+
+1. Clone this repository
+2. Open index.html in your browser (p5.js is browser-based, no server required).
+3. Play!
+
+ 
 
