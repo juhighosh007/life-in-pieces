@@ -1,10 +1,28 @@
 /* VARIABLES */
-let screen;
-screen = 0;
-let teddy, scissor, candy, catcher, scoreChildhood, flagChildhood;
-scoreChildhood = 0;
-flagChildhood = false;
+let teddy, scissor, candy, catcher, box, currentScenariosIndex;
+let screen = 0;
+let scoreChildhood = 0;
+let flagChildhood = false;
 let flagAdolescenceGame = false;
+let flagAdulthood = false;
+currentScenariosIndex = 0;
+
+// variables for adulthood simulation
+let burnout = 20;
+let joy = 60;
+let progress = 30;
+let scenarios;
+scenarios = {
+  weeks: ["Week 1 - The First Storm", "Week 2 - The Tempting Weekend", "Week 3 - The Side Dream",
+    "Week 4 - The Lonely Scroll","Week 5 - Crunch Time","Week 6 - Birthday Crossroads"],
+  scenario: ["Your first major assignment / work project lands sooner than expected.\nThe excitement of a new chapter is already clashing with deadlines.",
+    "A friend offers you free tickets to a weekend music festival in another city.\nBut Monday has an important deliverable.",
+    "You've been itching to start your own passion project,\nbut you barely have enough energy for your main commitments.",
+    "You've noticed your social circle shrinking.\nEveryone seems busy, and you've been scrolling alone most nights.",
+    "A surprise deadline hits.\nYou're unprepared and already running low on sleep.",
+    "It's your birthday.\nFriends have planned something special, but your boss/client drops urgent last-minute work."
+  ]
+}
 
 /* PRELOAD LOADS FILES */
 function preload(){
@@ -53,6 +71,21 @@ function setup() {
   childhoodSprites.add(catcher);
   childhoodSprites.visible=false;
 
+  // adulthood game sprites
+  box = new Sprite(-400, -400, 1000,400);
+  box.color = "#F2E9E4";
+  box.rotationLock = true;
+  box.collider= "s";
+
+  buttons = new Group()
+  buttonOne = new buttons.Sprite(-400, -400);
+  buttonTwo = new buttons.Sprite(-400, -400);
+  buttonThree = new buttons.Sprite(-400, -400);
+  buttons.color = "#C9ADA7";
+  buttons.width = 315;
+  buttons.height = 50;
+  buttons.rotationLock = true;
+  buttons.collider= "s";
 }
 
 /* DRAW LOOP REPEATS */
@@ -87,6 +120,8 @@ function draw() {
     adulthoodIntro();
   } else if (screen == 6 ) {
     adulthoodGame();
+  } else if (screen == 7 ) {
+    adulthoodEnd();
   }
   
 }
@@ -94,8 +129,215 @@ function draw() {
 /* FUNCTIONS */
 
 function adulthoodGame() {
+  background("#C9ADA7");
+  textFont("verdana");
+  box.x= width/2;
+  box.y = height/2;
+  drawSprites();
+    // showing variables
+  fill("#4A4E69");
+  textSize(15);
+  textStyle("bold");
+  textAlign(LEFT, LEFT);
+  text("burnout = " + burnout, width/2 - 470, height/2 - 160);
+  text("joy = " + joy, width/2 - 340, height/2 - 161);
+  text("progress = " + progress, width/2 - 240, height/2 - 162);
+
+// titles
+    fill("#22223B");
+  textAlign(LEFT, LEFT);
+  textSize(30);
+  let heading = scenarios.weeks[currentScenariosIndex];
+  text(heading, width/2 - 470, height/2 - 100);
+  let message = scenarios.scenario[currentScenariosIndex]
+  textSize(16);
+  text(message, width/2 - 470, height/2 - 60);
   
+
+  // choices buttons
+  buttonOne.pos = {x: width/2 + 160, y: height/2 + 40};
+  buttonTwo.pos = {x: width/2 - 160, y: height/2 + 40};
+  buttonThree.pos = {x: width/2 - 10, y: height/2 + 110};
+
+  buttons.textColor="#22223B";
+  if (currentScenariosIndex == 0) {
+    buttonOne.text = "Dive head-first into work";
+    buttonTwo.text = "Do a balanced amount, then go out for\ndinner with new friends";
+    buttonThree.text = "Procrastinate and binge a show";
+    if (buttonOne.mouse.presses()) {
+      progress+=18;
+      burnout+=15;
+      joy-=5;
+      currentScenariosIndex++
+    } else if (buttonTwo.mouse.presses()) {
+      progress+=10
+      joy+=8;
+      burnout+=7
+      currentScenariosIndex++
+    } else if (buttonThree.mouse.presses()) {
+      joy+=12;
+      burnout-=5;
+      progress-=15;
+      currentScenariosIndex++
+    }
+  }  else if (currentScenariosIndex == 1) {
+    buttonOne.text = "Go all weekend, ignore work";
+    buttonTwo.text = "Decline and work all weekend";
+    buttonThree.text = "Go for one day, work the rest";
+    if (buttonOne.mouse.presses()) {
+      progress-=20;
+      burnout-=10;
+      joy+=20;
+      currentScenariosIndex++
+    } else if (buttonTwo.mouse.presses()) {
+      progress+=20;
+      burnout+=18;
+      joy-=8;
+      currentScenariosIndex++
+    } else if (buttonThree.mouse.presses()) {
+      joy+=12;
+      progress+=8;
+      burnout+=5;
+      currentScenariosIndex++
+    }
+  } else if (currentScenariosIndex == 2) {
+    buttonOne.text = "Dedicate evenings to it";
+    buttonTwo.text = `Save it for "later"`;
+    buttonThree.text = "Drop a few main commitments to make time";
+    if (buttonOne.mouse.presses()) {
+      progress+=12;
+      joy+=15;
+      burnout+=12;
+      currentScenariosIndex++
+    } else if (buttonTwo.mouse.presses()) {
+      progress+=10;
+      burnout+=5;
+      joy-=5;
+      currentScenariosIndex++
+    } else if (buttonThree.mouse.presses()) {
+      joy+=18;
+      burnout-=8;
+      progress-=10;
+      currentScenariosIndex++
+    }
+  } else if (currentScenariosIndex == 3) {
+    buttonOne.text = "Host a small gathering";
+    buttonTwo.text = "Join a local club or event";
+    buttonThree.text = "Ignore it and focus on work";
+    if (buttonOne.mouse.presses()) {
+      joy+=15;
+      burnout-=5;
+      currentScenariosIndex++
+    } else if (buttonTwo.mouse.presses()) {
+      joy+=12;
+      burnout+=5;
+      progress+=5;
+      currentScenariosIndex++
+    } else if (buttonThree.mouse.presses()) {
+      progress+=15;
+      burnout+=10;
+      joy-=10;
+      currentScenariosIndex++
+    }
+  } else if (currentScenariosIndex == 4) {
+    buttonOne.text = "Pull two all-nighters";
+    buttonTwo.text = "Submit a rough version";
+    buttonThree.text = "Ask for an extension ";
+    if (buttonOne.mouse.presses()) {
+      progress+=20;
+      burnout+=25;
+      joy-=5;
+      currentScenariosIndex++
+    } else if (buttonTwo.mouse.presses()) {
+      progress-=5;
+      burnout+=5;
+      currentScenariosIndex++
+    } else if (buttonThree.mouse.presses()) {
+      progress+=10;
+      joy+=5;
+      currentScenariosIndex++
+    }
+  } else if (currentScenariosIndex == 5) {
+    buttonOne.text = "Choose the celebration";
+    buttonTwo.text = "Balance both (leave party early)";
+    buttonThree.text = "Cancel plans for work";
+    if (buttonOne.mouse.presses()) {
+      joy+=22;
+      burnout-=10;
+      progress-=10;
+      screen = 7;
+    } else if (buttonTwo.mouse.presses()) {
+      joy+=12;
+      progress+=12;
+      burnout+=5;
+      screen = 7;
+    } else if (buttonThree.mouse.presses()) {
+      progress+=18;
+      burnout+=15;
+      joy-=12;
+      screen = 7;
+    }
+  }
 }
+
+function adulthoodEnd() {
+  buttons.removeAll();
+  background("#C9ADA7");
+  box.x= width/2;
+  box.y = height/2;
+  drawSprites();
+  
+  fill("#22223B");
+  textAlign(CENTER, CENTER);
+  textSize(40);
+
+  if (joy>=70 && progress >= 70 ) {
+    textStyle("bold");
+    text("Thriving", width/2, height/2 - 100);
+    textSize(20);
+    textStyle("normal");
+    text(`You've built a life that excites you. Work, friendships, and personal goals are in harmony. 
+      You're thriving — and you know it.`, width/2, height/2);
+  } else if (joy <=20) {
+    textStyle("bold");
+    text("Alone in the Crowd", width/2, height/2 - 100);
+    textSize(20);
+    textStyle("normal");
+    text(`You've got the degrees, the job, maybe even the apartment… 
+      but the silence at the end of the day feels louder than any success.`,width/2, height/2);
+    } else if (progress>=80 && burnout > 50 ) {
+    textStyle("bold");
+    text("The Achiever",width/2, height/2 - 100);
+    textSize(20);
+    textStyle("normal");
+    text(`Your career is impressive, but the cost shows. 
+      The late nights and sacrifices have left you wondering what you missed.`, width/2, height/2);
+  } else if (burnout >= 80) {
+    textStyle("bold");
+    text("Burned Out",width/2, height/2 - 100);
+    textSize(20);
+    textStyle("normal");
+    text(`You've run on empty for too long. 
+      Your body forces you to stop, whether you like it or not.`,width/2, height/2);
+  } else {
+    textStyle("bold");
+    text("Coasting",width/2, height/2 - 100);
+    textSize(20);
+    textStyle("normal");
+    text(`Life's not perfect, but it's steady. 
+      You get by, with enough good days to keep going.`,width/2, height/2);
+  }
+  fill("#22223B");
+  textSize(20);
+  textStyle("italic");
+  text(`Press the space bar to continue`,
+    width / 2, height / 2 + 100);
+  if (kb.presses("space")) {
+  box.remove();
+    screen=8;
+  }
+}
+
 
 function adulthoodIntro() {
   phase = "Adulthood"
@@ -341,15 +583,15 @@ Stay alert - some things aren't meant for little hands.`, width/2, height/2);
   }
 
   // If fallingObjects reaches bottom, move back to random position at top
-  if (teddy.y >= height) {
+  if (teddy.y >= height || teddy.y<=0) {
     teddy.y=0;
     teddy.x=random(30,width-105);
     teddy.vel.y=random(4,7);
-  } else if (candy.y >= height) {
+  } else if (candy.y >= height || candy.y<=0) {
     candy.y=0;
     candy.x=random(30,width-105);
     candy.vel.y=random(4,7);
-  } else if (scissor.y >= height) {
+  } else if (scissor.y >= height || scissor.y<=0) {
     scissor.y=0;
     scissor.x=random(30,width-105);
     scissor.vel.y=random(4,7);
