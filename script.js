@@ -36,7 +36,7 @@ function preload(){
 /* SETUP RUNS ONCE */
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background("#c2dfe3");
+  background("#F2E9E4");
   textFont("verdana")
 
   candyImg.resize(70,130);
@@ -64,7 +64,7 @@ function setup() {
   
    // catcher 
   catcher = new Sprite(width / 2, height -  30 , 160, 20);
-  catcher.color = color("black");
+  catcher.color = color("#22223B");
   catcher.collider = "k";
 
   // adding them to group
@@ -183,7 +183,7 @@ text(`Use arrow keys to dodge memories, regrets, and fading strength.
 
   avoider3.x=7;
   avoider3.y= height/2 + 200;
-  avoider3.vel.x=5;
+  avoider3.vel.x=8;
   avoider3.visible = true;
 
   flagOldAge = true;
@@ -221,7 +221,7 @@ text(`Use arrow keys to dodge memories, regrets, and fading strength.
   if (avoider3.x > width) {
     avoider3.x = -50;
     avoider3.y = height/2 + 200;
-    avoider3.vel.x = 5;
+    avoider3.vel.x = 8;
   } 
 
   //Don't let the player move off the screen
@@ -501,23 +501,22 @@ phaseIntro(phase, description, screenNumber);
 }
 
 function introPage() {
-  background("#c2dfe3");
+  background("#F2E9E4");
   noStroke()
   textAlign(CENTER, CENTER);
   textSize(70);
   textStyle("bold");
   textFont("Verdana");
-  fill("#253237");
+  fill("#4f3731ff");
   text("Life: In Pieces", width/2, height/2-200);
   textSize(30);
-  textFont("Helvetica");
   textStyle("bold");
-  fill("#34474e");
+  fill("#7E574E");
   text(`The game explores the human journey\nthrough different life stages
-     childhood, adolescence, adulthood, and beyond\nwith a mix of genres\nincluding choose-your-own-adventure, collection, simulation, and symbolic arcade challenges.`,
+     childhood, adolescence, adulthood, and beyond\nwith a mix of genres\nincluding choose-your-own-adventure,\ncollection, simulation, and symbolic arcade challenges.`,
     width / 2, height / 2);
-  fill("#253237");
   textStyle("italic");
+  fill("#61433cff");
   text(`Click anywhere on the screen to continue`,
     width / 2, height / 2 + 200);
   if (mouse.presses()) {
@@ -526,12 +525,12 @@ function introPage() {
 }
 
 function phaseIntro(phase, description, screenNumber) {
-  background("A2D2FF");
+  background("#4A4E69");
 // title
   textSize(45);
   textFont("verdana");
   textStyle("bold");
-  fill("#954AC1");
+  fill("#F2E9E4");
   text(phase,
     width / 2, height / 2 - 200);
 // intro text
@@ -539,7 +538,6 @@ function phaseIntro(phase, description, screenNumber) {
   textSize(35);
   text(description, width / 2, height / 2 )
  textSize(20);
- fill("#67228E");
  text(`Press the space bar to continue`,
     width / 2, height / 2 + 200);
   if (kb.presses("space")) {
@@ -548,7 +546,7 @@ function phaseIntro(phase, description, screenNumber) {
 }
 
 function adolescenceGame () {
-  background("#EF476F");
+  background("#9A8C98");
   // draw maze  
   if (!flagAdolescenceGame) {
     walls = new Group();
@@ -569,18 +567,18 @@ function adolescenceGame () {
 
   // player 
   player = new Sprite(350, 50, 40, 40);
-  player.color = "#FFD166";
+  player.color = "#22223B";
   player.rotationLock = true;
   
   // obstacles 
   firstObstacle = new Sprite(110,50,40,40, "k");
-  firstObstacle.color = "white";
+  firstObstacle.color = "#C9ADA6";
   firstObstacle.rotationLock = true;
   firstObstacle.vel.y = 1;
 
   secondObstacle = new Sprite(50,250,40,40, "k");
   secondObstacle.rotationLock = true;
-  secondObstacle.color = "black";
+  secondObstacle.color = "#4A4E69";
   secondObstacle.vel.x = 1;
 
   flagAdolescenceGame = true;
@@ -606,8 +604,9 @@ function adolescenceGame () {
     } 
 
   // Draw start and end text
-  fill("white");
+  fill("F2E9E4");
   textSize(20);
+  textFont("Verdana");
   text('Start', 350, 20);
   text('End', 35, 390);
 
@@ -650,7 +649,7 @@ function adolescenceGame () {
   }
 
   // Instructions 
-  textStyle("italic")
+  textStyle("bold")
   textSize(35);
   textAlign(CENTER, CENTER);
   text(`You're a rebellious teen sneaking out at midnight.
@@ -685,13 +684,13 @@ function childhood() {
 }
 
 function childhoodGame() {
-  background("#FFF3B0");
+  background("#9A8C98")
+  fill("#F2E9E4");
   childhoodSprites.visible=true;
   // Instructions
-  fill("#382145");
-  textFont("Helvetica");
-  textStyle("normal");
-  textSize(40);
+  textFont("verdana");
+  textStyle("bold");
+  textSize(35);
   textAlign(CENTER, CENTER);
   text(`Use the arrow keys to catch falling toys and snacks to earn points.
 Stay alert - some things aren't meant for little hands.`, width/2, height/2);
@@ -770,16 +769,16 @@ Stay alert - some things aren't meant for little hands.`, width/2, height/2);
 
   // Win or Lose
   if (scoreChildhood>=50) {
-    background("#FFF3B0");
+    background("#C9ADA6");
     textAlign(CENTER, CENTER);
-    textSize(45);
-    fill("#382145");
-  textFont("Helvetica");
+    textSize(35);
+    fill("#4A4E69");
+  textFont("verdana");
   textStyle("bold");
     childhoodSprites.removeAll();
     text(`You head into the world with wonder still in your pocket
       - curious, kind, and ready to grow.`, width/2,height/2);
-  fill("#382145");
+  fill("#4A4E69");
   textSize(20);
   textStyle("italic");
   text(`Press the space bar to continue`,
@@ -788,17 +787,17 @@ Stay alert - some things aren't meant for little hands.`, width/2, height/2);
     screen=3;
   }
   } else if (scoreChildhood < 0) {
-    background("#FFF3B0");
+    background("#C9ADA6");
     childhoodSprites.removeAll();
     textAlign(CENTER, CENTER);
-    textSize(45);
-    fill("#382145");
-  textFont("Helvetica");
+    textSize(35);
+    fill("#4A4E69");
+  textFont("verdana");
   textStyle("bold");
     text(`You leave with fewer smiles than you deserved.
       But you're still standing.
       And that matters too.`, width/2,height/2);
-  fill("#382145");
+  fill("#4A4E69");
   textSize(20);
   textStyle("italic");
   text(`Press the space bar to continue`,
