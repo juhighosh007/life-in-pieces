@@ -5,7 +5,9 @@ let scoreChildhood = 0;
 let flagChildhood = false;
 let flagAdolescenceGame = false;
 let flagAdulthood = false;
+let flagOldAge = false;
 currentScenariosIndex = 0;
+let avoider1, avoider2, avoider3, playerOld;
 
 // variables for adulthood simulation
 let burnout = 20;
@@ -35,6 +37,7 @@ function preload(){
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background("#c2dfe3");
+  textFont("verdana")
 
   candyImg.resize(70,130);
   scissorsImg.resize(70,0);
@@ -86,6 +89,23 @@ function setup() {
   buttons.height = 50;
   buttons.rotationLock = true;
   buttons.collider= "s";
+
+  // Old Age Game Sprites
+
+  //Create the player 
+  playerOld = new Sprite(-200, 20, 30);
+  playerOld.color = "#4A4E69";
+  playerOld.direction = "down";
+
+  //Create the avoiders
+  avoider1 = new Sprite(-100, 100, 120, 20, "k");
+  avoider1.color = "#C9ADA7";
+
+  avoider2 = new Sprite(-100, 800, 80, 20, "k");
+  avoider2.color = "#F2E9E4";
+  
+  avoider3 = new Sprite(-100, 1300, 180, 20, "k");
+  avoider3.color = "#22223B";
 }
 
 /* DRAW LOOP REPEATS */
@@ -126,6 +146,8 @@ function draw() {
     oldAgeIntro();
   } else if (screen == 9) {
     oldAgeGame();
+  } else if (screen == 10) {
+    youWin();
   }
   
 }
@@ -133,7 +155,117 @@ function draw() {
 /* FUNCTIONS */
 
 function oldAgeGame() {
-  background("#9A8C98");
+  background("#9A8C98")
+  fill("#F2E9E4");
+textSize(35);
+textStyle("bold");
+textFont("verdana");
+textAlign(CENTER, CENTER);
+text(`Use arrow keys to dodge memories, regrets, and fading strength.
+  Reach the end to complete your journey.`, width/2, height/2);
+
+  // Bring back sprites
+
+  if (!flagOldAge) {
+  playerOld.x=width/2;
+  playerOld.y=20;
+  playerOld.visible = true;
+
+  avoider1.x=10;
+  avoider1.y= 100;
+  avoider1.vel.x=7;
+  avoider1.visible = true;
+
+  avoider2.x=5;
+  avoider2.y= height/2;
+  avoider2.vel.x=6;
+  avoider2.visible = true;
+
+  avoider3.x=7;
+  avoider3.y= height/2 + 200;
+  avoider3.vel.x=5;
+  avoider3.visible = true;
+
+  flagOldAge = true;
+  }
+
+  drawSprites();
+
+  //Program the player to move
+  if (kb.pressing("left")) {
+    playerOld.vel.x = -3;
+  } else if (kb.pressing("right")) {
+    playerOld.vel.x = 3;
+  } else if (kb.pressing("up")) {
+    playerOld.vel.y = -3;
+  } else if (kb.pressing("down")) {
+    playerOld.vel.y = 3;
+  } else {
+    playerOld.vel.x = 0;
+    playerOld.vel.y = 0;
+  }
+
+  //Reset avoider locations once they reach edge of screen 
+  if (avoider1.x > width) {
+    avoider1.x = -50;
+    avoider1.y = 100;
+    avoider1.vel.x = 7;
+  } 
+
+  if (avoider2.x > width) {
+    avoider2.x = -50;
+    avoider2.y = height/2;
+    avoider2.vel.x = 6;
+  } 
+
+  if (avoider3.x > width) {
+    avoider3.x = -50;
+    avoider3.y = height/2 + 200;
+    avoider3.vel.x = 5;
+  } 
+
+  //Don't let the player move off the screen
+  if (playerOld.y < 20) {
+    playerOld.y = 20;
+  } else if (playerOld.y > height - 10) {
+    playerOld.vel.x = 0;
+    playerOld.vel.y = 0;
+    screen = 10;
+  }
+
+  if (playerOld.x < 20) {
+    playerOld.x = 20;
+  } else if (playerOld.x > width - 50) {
+    playerOld.x = width - 50;
+  }
+
+  //Check if player collides with avoiders
+  if (playerOld.collides(avoider1) || playerOld.collides(avoider2) || playerOld.collides(avoider3)) {
+    playerOld.x=200;
+    playerOld.y=20;
+  }
+}
+
+function youWin() {
+  background("#22223B");
+  //Draw avoiders off of screen
+  avoider1.x = -200;
+  avoider1.vel.x = 0;
+  avoider2.x = -500;
+  avoider2.vel.x = 0;
+  avoider3.x = -1000;
+  avoider3.vel.x = 0;
+
+  playerOld.visible = false;
+  //Display final message
+  
+  textStyle("italic");
+  fill("white");
+  textFont("verdana")
+  text(`You fall. Gently.
+ But the story doesn’t end here.
+ Somewhere, someone still smiles when they think of you.
+ And that’s how you stay alive.`, width/2, height/2);
 }
 
 function adulthoodGame() {
@@ -341,6 +473,7 @@ function adulthoodEnd() {
   text(`Press the space bar to continue`,
     width / 2, height / 2 + 100);
   if (kb.presses("space")) {
+    box.pos={x:-1000,y:-1000};
     screen=8;
   }
 }
