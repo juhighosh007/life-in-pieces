@@ -122,11 +122,19 @@ function draw() {
     adulthoodGame();
   } else if (screen == 7 ) {
     adulthoodEnd();
+  } else if (screen == 8 ) {
+    oldAgeIntro();
+  } else if (screen == 9) {
+    oldAgeGame();
   }
   
 }
 
 /* FUNCTIONS */
+
+function oldAgeGame() {
+  background("#9A8C98");
+}
 
 function adulthoodGame() {
   background("#C9ADA7");
@@ -333,11 +341,20 @@ function adulthoodEnd() {
   text(`Press the space bar to continue`,
     width / 2, height / 2 + 100);
   if (kb.presses("space")) {
-  box.remove();
     screen=8;
   }
 }
 
+function oldAgeIntro() {
+  phase = "Old Age"
+  description = `Your body slows. Your thoughts wander.
+ You forget names, but remember laughter.
+ You've carried so much - years, people, moments that changed you.
+ Now, you're trying to hold on just a little longer.
+ Every breath is a goodbye. And a thank you.`;
+  screenNumber = 9;
+  phaseIntro(phase, description, screenNumber);
+}
 
 function adulthoodIntro() {
   phase = "Adulthood"
